@@ -38,10 +38,11 @@ class DataTransformation:
         except Exception as e:
             raise CustomException(e, sys)
     
-    def initiate_data_transformation(self, train_path):
+    def initiate_data_transformation(self, train_path, test_path):
         
         try:
             train_df = pd.read_csv(train_path)
+            test_df = pd.read_csv(test_path)
             
             logging.info("Reading train and test data completed")
             
@@ -54,9 +55,24 @@ class DataTransformation:
             input_feature_train_df = train_df.drop(columns=[target_column], axis=1)
             target_feature_train_df = train_df[target_column]
             
+            input_feature_test_df = test_df.drop(columns=[target_column], axis=1)
+            target_feature_test_df = test_df[target_column]
+            
+            
             logging.info(f"Applying preprocessing object on training dataframe")
             
-            train_arr = preprocessor_obj.fit(input_feature_train_df, target_feature_train_df)
+            train_arr_transform = preprocessor_obj.fit(input_feature_train_df, target_feature_train_df)
+            
+            scaler = StandardScaler()
+            test_arr_transform = scaler.transform(input_feature_test_df, target_feature_test_df)
+            
+            train_arr = np.c_[
+                train_arr_transform, np.array(target_feature_train_df)
+            ]
+            test_arr = np.c_[
+                test_arr_transform, np.array(target_feature_test_df)
+            ]
+            
             
             logging.info(f"Saving preprocessor object")
             
@@ -68,6 +84,7 @@ class DataTransformation:
             
             return(
                 train_arr,
+                test_arr,
                 self.data_transformation_config.preprocessor_obj_file_path
             )
             

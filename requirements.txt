@@ -3,4 +3,8 @@ pandas
 seaborn
 scikit-learn
 imblearn
+lightgbm
+xgboost
+catboost
+dill
 #-e .
