@@ -11,6 +11,8 @@ Input Features:
 Target Feature:
 * 'Class' - Output Feature | Which tells whether the transaction is normal or fraud type.
 
+Initially the Exploratory Data Analysis (EDA) and model training is performed in Jupyter notebook files. 
+
 ## Approach for the Project:
 
 1. Data Ingestion : 
