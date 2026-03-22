@@ -3,6 +3,7 @@ from flask import Flask, request, render_template
 import numpy as np
 import pandas as pd
 import os
+import traceback
 
 from sklearn.preprocessing import StandardScaler
 from src.pipeline.predict_pipeline import CustomData, PredictPipeline
@@ -22,7 +23,8 @@ def predict_datapoint():
     if request.method == 'GET':
         return render_template('home.html')
     else:
-        data = CustomData(
+        try: 
+            data = CustomData(
             Time = request.form.get('Time'),
             V1 = request.form.get('V1'),
             V2=request.form.get('V2'),
@@ -55,15 +57,18 @@ def predict_datapoint():
             Amount=request.form.get('Amount')
         )
         
-        pred_df = data.get_data_as_dataframe()
-        print(pred_df)
-        print("Before Prediction")
+            pred_df = data.get_data_as_dataframe()
+            print(pred_df)
+            print("Before Prediction")
         
-        predict_pipeline = PredictPipeline()
-        print("Mid prediction")
-        results = predict_pipeline.predict(pred_df)
-        print("After prediction")
-        return render_template("home.html", results= results[0])
+            predict_pipeline = PredictPipeline()
+            print("Mid prediction")
+            results = predict_pipeline.predict(pred_df)
+            print("After prediction")
+            return render_template("home.html", results= results[0])
+        
+        except Exception as e:
+            return f"<pre>{traceback.format_exc()}</pre>"
     
 if __name__=="__main__":
     port = int(os.environ.get('PORT', 5000))
