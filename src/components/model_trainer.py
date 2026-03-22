@@ -3,7 +3,6 @@ import sys
 
 from dataclasses import dataclass
 
-from catboost import CatBoostClassifier
 from sklearn.ensemble import (
     AdaBoostClassifier,
     RandomForestClassifier
@@ -49,7 +48,7 @@ class ModelTrainer:
             models = {
                 "Random Forest": RandomForestClassifier(),
                 "XGBClassifier": XGBClassifier(),
-                "CatBoost Classifier":CatBoostClassifier(),
+                # "CatBoost Classifier":CatBoostClassifier(),
                 "AdaBoost Classifier": AdaBoostClassifier(),
                 "LightBoost Classifier": LGBMClassifier()
             }
@@ -58,26 +57,24 @@ class ModelTrainer:
                 "Random Forest": {
                     'n_estimators':[50, 100, 150],
                     'n_jobs':[2,4],
-                    'criterion':['gini','entropy'], 
-                    'verbose':[False]
+                    'criterion':['gini','entropy']
                     
                 },
                 "XGBClassifier": {},
-                "CatBoost Classifier":{
-                    'iterations':[300,500], 
-                    'learning_rate':[0.02, 0.01],
-                    'depth':[10,12], 
-                    'eval_metric':['AUC'],
-                    'bagging_temperature': [0.2, 0.1, 0.3], 
-                    'od_type':['Iter'], 
-                    'od_wait':[100, 150, 200],
-                    'verbose':[False]
-                },
+                # "CatBoost Classifier":{
+                #     'iterations':[300,500], 
+                #     'learning_rate':[0.02, 0.01],
+                #     'depth':[10,12], 
+                #     'eval_metric':['AUC'],
+                #     'bagging_temperature': [0.2, 0.1, 0.3], 
+                #     'od_type':['Iter'], 
+                #     'od_wait':[100, 150, 200],
+                #     'verbose':[False]
+                # },
                 "AdaBoost Classifier":{
                     
                     'learning_rate':[0.8,0.5,0.2], 
                     'n_estimators':[100, 50, 150],
-                    'algorithm':['SAMME.R'], 
                     'random_state':[42, 35]
                 },
                 "LightBoost Classifier":{}
@@ -88,7 +85,8 @@ class ModelTrainer:
             
             #To get the best model from dict
             
-            best_model_name = max(f1_report, key=f1_report.get)
+            # best_model_name = max(f1_report, key=f1_report.get)
+            best_model_name = "Random Forest"
             best_model_score = f1_report[best_model_name]
             best_model_metrics = {
                 "accuarcy": acc_report[best_model_name],
@@ -106,7 +104,7 @@ class ModelTrainer:
             
             save_object(
                 file_path=self.model_trainer_config.trained_model_file_path,
-                obj=best_model_name
+                obj=best_model
             )
             
             predicted = best_model.predict(X_test)

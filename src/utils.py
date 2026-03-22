@@ -60,12 +60,12 @@ def evaluate_models(X_train, y_train, X_test, y_test, models, param):
             test_model_recall = recall_score(y_test, y_test_pred, average='weighted')
             test_model_f1_score = f1_score(y_test, y_test_pred, average='weighted')
             
-            acc_report[list(model.keys())[i]] = test_model_accuarcy
-            prec_report[list(model.keys())[i]] = test_model_precision
-            recall_report[list(model.keys())[i]] = test_model_recall
-            f1_report[list(model.keys())[i]] = test_model_f1_score
+            acc_report[list(models.keys())[i]] = test_model_accuarcy
+            prec_report[list(models.keys())[i]] = test_model_precision
+            recall_report[list(models.keys())[i]] = test_model_recall
+            f1_report[list(models.keys())[i]] = test_model_f1_score
             
-            return acc_report, prec_report, recall_report, f1_report
+        return acc_report, prec_report, recall_report, f1_report
             
     except Exception as e:
         raise CustomException(e, sys)

@@ -28,8 +28,7 @@ class DataTransformation:
         try:
             pipeline = Pipeline(
                 steps=[
-                    ("scaler", StandardScaler()),
-                    ("SMOTE", SMOTE(random_state=42)),
+                    ("scaler", StandardScaler())
                 ]
             )
             
@@ -61,13 +60,14 @@ class DataTransformation:
             
             logging.info(f"Applying preprocessing object on training dataframe")
             
-            train_arr_transform = preprocessor_obj.fit(input_feature_train_df, target_feature_train_df)
+            train_arr_transform = preprocessor_obj.fit_transform(input_feature_train_df)
+            test_arr_transform = preprocessor_obj.transform(input_feature_test_df)
             
-            scaler = StandardScaler()
-            test_arr_transform = scaler.transform(input_feature_test_df, target_feature_test_df)
+            smote = SMOTE(random_state=42)
+            train_arr_resampled, target_arr_resampled  = smote.fit_resample(train_arr_transform, target_feature_train_df)
             
             train_arr = np.c_[
-                train_arr_transform, np.array(target_feature_train_df)
+                train_arr_resampled, np.array(target_arr_resampled)
             ]
             test_arr = np.c_[
                 test_arr_transform, np.array(target_feature_test_df)
