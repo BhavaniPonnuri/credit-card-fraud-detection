@@ -26,7 +26,7 @@ Initially the Exploratory Data Analysis (EDA) and model training is performed in
     * This preprocessor is saved as pickle file.
 
 3. Model Training : 
-    * In this phase base model is tested on different machine learning algorithms such as RandomForest Classifier, XGBoost Classifier, AdaBoost Classifier, Catboost Classifier, LGBM Classifier. The best model found was Random Forest Classifier.
+    * In this phase base model is tested on different machine learning algorithms such as RandomForest Classifier, XGBoost Classifier, AdaBoost Classifier, LGBM Classifier. The best model found was Random Forest Classifier.
     * After this hyperparameter tuning is performed.
     * A final model is created with the RandomForest Classifier.
     * This model is saved as pickle file.
@@ -35,6 +35,6 @@ Initially the Exploratory Data Analysis (EDA) and model training is performed in
     * This pipeline converts given data into dataframe and has various functions to load pickle files and predict the final results in python.
 
 5. Flask App creation : 
-    * Flask app is created with User Interface to predict the gemstone prices inside a Web Application.
+    * Flask app is created with User Interface to detect the fraud cases on Render website.
 
 
